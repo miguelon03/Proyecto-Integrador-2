@@ -1,5 +1,7 @@
 <?php
 session_start();
+header('Content-Type: application/json');
+
 require "BD.php";
 
 $usuario = $_POST['usuario'] ?? '';
@@ -29,24 +31,33 @@ if (!isset($mapa[$tipo])) {
 $tabla = $mapa[$tipo]['tabla'];
 $panel = $mapa[$tipo]['panel'];
 
-$stmt = $conexion->prepare(
-    "SELECT * FROM $tabla WHERE usuario=? AND contrasena=?"
-);
-$stmt->bind_param("ss", $usuario, $contrasena);
+$stmt = $conexion->prepare("SELECT contrasena FROM $tabla WHERE usuario=?");
+if (!$stmt) {
+    echo json_encode(['ok' => false, 'error' => 'Error en la consulta']);
+    exit;
+}
+
+$stmt->bind_param("s", $usuario);
 $stmt->execute();
 $res = $stmt->get_result();
 
-if ($res->num_rows === 1) {
-    $_SESSION['usuario'] = $usuario;
-    $_SESSION['tipo'] = $tipo;
+if ($res && $res->num_rows === 1) {
+    $row = $res->fetch_assoc();
 
-    echo json_encode([
-        'ok' => true,
-        'redirect' => $panel
-    ]);
-} else {
-    echo json_encode([
-        'ok' => false,
-        'error' => 'Usuario o contraseña incorrectos'
-    ]);
+    if (password_verify($contrasena, $row['contrasena'])) {
+        $_SESSION['usuario'] = $usuario;
+        $_SESSION['tipo'] = $tipo;
+
+        echo json_encode([
+            'ok' => true,
+            'redirect' => $panel
+        ]);
+        exit;
+    }
 }
+
+echo json_encode([
+    'ok' => false,
+    'error' => 'Usuario o contraseña incorrectos'
+]);
+exit;
