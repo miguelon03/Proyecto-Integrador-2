@@ -25,17 +25,14 @@ require "backend/BD.php";
             <nav class="nav-links">
                 <a href="#">Bases del Concurso</a>
                 <a href="#">Inscripción</a>
-                <a href="#">Organización</a>
+                <a href="#">Ediciones Anteriores</a>
+                <a href="#">Eventos</a>
                 <select id="login" onchange="redirigirLogin(this.value)">
                     <option value="" selected disabled hidden>Entrar</option>
                     <option value="alumno">Alumno</option>
                     <option value="alumni">Alumni</option>
                     <option value="organizador">Organizador</option>
                 </select>
-
-
-
-
             </nav>
         </div>
     </header>

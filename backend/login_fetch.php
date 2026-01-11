@@ -2,7 +2,7 @@
 session_start();
 header('Content-Type: application/json');
 
-require "BD.php";
+require "conexion.php";
 
 $usuario = $_POST['usuario'] ?? '';
 $contrasena = $_POST['contrasena'] ?? '';
