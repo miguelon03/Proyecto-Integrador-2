@@ -54,6 +54,7 @@ require "../backend/conexion.php";
                 <a href="#">Ediciones Anteriores</a>
                 <a href="eventos.html">Eventos</a>
                 <a href="#">Organizador</a>
+                <a href="gala.php">Gala</a>
                 <a href="../logout.php">Cerrar Sesión</a>
             </nav>
         </div>
@@ -173,9 +174,59 @@ require "../backend/conexion.php";
 
         <!-- ================= GALA ================= -->
         <section id="gala">
-            <h2>Gestión de Gala</h2>
-            <p>(Pre-evento / Post-evento)</p>
-        </section>
+    <h2>Gestión de Gala</h2>
+
+    <!-- CAMBIO DE MODO -->
+    <div style="margin-bottom:20px;">
+        <strong>Modo actual:</strong>
+        <span id="modoActual"></span>
+        <button onclick="cambiarModo()">Cambiar modo</button>
+    </div>
+
+    <!-- ================= PRE-EVENTO ================= -->
+    <div id="galaPre">
+
+        <h3>Pre-evento: Secciones</h3>
+        <button onclick="mostrarFormSeccion()">➕ Añadir sección</button>
+
+        <form id="formSeccion" style="display:none;margin-top:15px;">
+            <input type="text" name="titulo" placeholder="Título" required>
+            <input type="time" name="hora" required>
+            <input type="text" name="sala" placeholder="Sala" required>
+            <textarea name="descripcion" placeholder="Descripción" required></textarea>
+
+            <button type="submit">Guardar sección</button>
+            <button type="button" onclick="ocultarFormSeccion()">Cancelar</button>
+        </form>
+
+        <div id="listaSecciones"></div>
+    </div>
+
+    <!-- ================= POST-EVENTO ================= -->
+    <div id="galaPost" style="display:none;">
+
+        <h3>Post-evento</h3>
+
+        <h4>Texto resumen</h4>
+        <form id="formResumen">
+            <textarea name="texto" rows="5" required></textarea>
+            <button type="submit">Guardar resumen</button>
+        </form>
+
+        <h4>Galería de imágenes</h4>
+        <form id="formImagen" enctype="multipart/form-data">
+            <input type="file" name="imagen" accept="image/*" required>
+            <button type="submit">Subir imagen</button>
+        </form>
+
+        <h4>Edición final</h4>
+        <button onclick="guardarEdicion()">➕ Añadir a ediciones anteriores</button>
+
+    </div>
+
+</section>
+
+
 
     </main>
 
@@ -190,6 +241,7 @@ require "../backend/conexion.php";
                 cargarCategorias();
                 cargarGanadores();
             }
+            if (id === 'gala') cargarModo();
 
         }
     </script>
@@ -199,7 +251,7 @@ require "../backend/conexion.php";
     <script src="../js/eventos.js"></script>
     <script src="../js/premios_categorias.js"></script>
     <script src="../js/premios_ganadores.js"></script>
-
+    <script src="../js/gala_admin.js"></script>
 </body>
 
 </html>

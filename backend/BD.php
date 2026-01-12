@@ -90,13 +90,7 @@ CREATE TABLE IF NOT EXISTS patrocinadores (
     logo VARCHAR(255) NOT NULL
 );
 
-CREATE TABLE IF NOT EXISTS gala_secciones (
-    id_seccion INT AUTO_INCREMENT PRIMARY KEY,
-    titulo VARCHAR(150) NOT NULL,
-    hora TIME NOT NULL,
-    sala VARCHAR(100) NOT NULL,
-    descripcion TEXT NOT NULL
-);
+
 
 CREATE TABLE IF NOT EXISTS ediciones (
     id_edicion INT AUTO_INCREMENT PRIMARY KEY,
@@ -108,6 +102,33 @@ CREATE TABLE IF NOT EXISTS ediciones (
     corto_alumnos VARCHAR(255),
     corto_alumni VARCHAR(255)
 );
+CREATE TABLE IF NOT EXISTS gala_estado (
+    id INT PRIMARY KEY CHECK (id = 1),
+    modo ENUM('pre', 'post') NOT NULL
+);
+
+INSERT IGNORE INTO gala_estado (id, modo) VALUES (1, 'pre');
+
+CREATE TABLE IF NOT EXISTS gala_secciones (
+    id_seccion INT AUTO_INCREMENT PRIMARY KEY,
+    titulo VARCHAR(150) NOT NULL,
+    hora TIME NOT NULL,
+    sala VARCHAR(100) NOT NULL,
+    descripcion TEXT NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS gala_resumen (
+    id INT PRIMARY KEY,
+    texto TEXT
+);
+
+INSERT IGNORE INTO gala_resumen (id, texto) VALUES (1, '');
+
+CREATE TABLE IF NOT EXISTS gala_imagenes (
+    id_imagen INT AUTO_INCREMENT PRIMARY KEY,
+    imagen VARCHAR(255) NOT NULL
+);
+
 
 ";
 

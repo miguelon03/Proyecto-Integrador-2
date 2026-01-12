@@ -33,7 +33,8 @@ require "../backend/conexion.php";
                 <a href="#">Bases del Concurso</a>
                 <a href="#">Inscripción</a>
                 <a href="#">Ediciones Anteriores</a>
-                <a href="#">Eventos</a>
+                <a href="eventos.html">Eventos</a>
+                <a href="gala.html">Gala</a>
                 <a href="../logout.php">Cerrar Sesión</a>
 
             </nav>
