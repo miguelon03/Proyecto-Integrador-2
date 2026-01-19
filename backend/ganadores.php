@@ -20,22 +20,35 @@ if ($accion === 'listar') {
 
     while ($cat = $res->fetch_assoc()) {
 
-        // Detectamos tipo por nombre (simple y válido para la rúbrica)
-        $tipo = strtolower($cat['nombre']);
+        // 🔎 Buscar ganador
+        $stmtG = $conexion->prepare(
+            "SELECT nombre FROM ganadores WHERE id_categoria = ? LIMIT 1"
+        );
+        $stmtG->bind_param("i", $cat['id_categoria']);
+        $stmtG->execute();
+        $resG = $stmtG->get_result();
 
-        if (str_contains($tipo, 'alumno')) {
+        if ($resG->num_rows > 0) {
+            $cat['ganador'] = $resG->fetch_assoc()['nombre'];
+        } else {
+            $cat['ganador'] = null;
+        }
+
+        // Detectar tipo
+        $nombre = strtolower($cat['nombre']);
+
+        if (str_contains($nombre, 'alumno')) {
             $part = $conexion->query("SELECT usuario FROM alumnos");
             $cat['tipo'] = 'Alumnos';
-        } elseif (str_contains($tipo, 'alumni')) {
+        } elseif (str_contains($nombre, 'alumni')) {
             $part = $conexion->query("SELECT usuario FROM alumni");
             $cat['tipo'] = 'Alumni';
-        } elseif (str_contains($tipo, 'carrera')) {
+        } elseif (str_contains($nombre, 'carrera')) {
             $cat['tipo'] = 'Carrera Profesional';
             $cat['participantes'] = [];
             $categorias[] = $cat;
             continue;
         } else {
-            // Categoría genérica → no mostramos ganador
             continue;
         }
 
@@ -53,6 +66,7 @@ if ($accion === 'listar') {
     ]);
     exit;
 }
+
 
 /* =========================
    GUARDAR GANADOR

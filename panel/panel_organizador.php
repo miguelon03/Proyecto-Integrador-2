@@ -168,9 +168,17 @@ require "../backend/conexion.php";
 
         <!-- ================= PATROCINADORES ================= -->
         <section id="patrocinadores">
-            <h2>Gestión de Patrocinadores</h2>
-            <p>(Sección de patrocinadores)</p>
-        </section>
+    <h2>Gestión de Patrocinadores</h2>
+
+    <form id="formPatrocinador" enctype="multipart/form-data">
+        <input type="text" name="nombre" placeholder="Nombre patrocinador" required>
+        <input type="file" name="logo" accept="image/*" required>
+        <button type="submit">Guardar patrocinador</button>
+    </form>
+
+    <div id="listaPatrocinadores" style="margin-top:20px;"></div>
+</section>
+
 
         <!-- ================= GALA ================= -->
         <section id="gala">
@@ -242,6 +250,8 @@ require "../backend/conexion.php";
                 cargarGanadores();
             }
             if (id === 'gala') cargarModo();
+            if (id === 'patrocinadores') cargarPatrocinadores();
+
 
         }
     </script>
@@ -252,6 +262,8 @@ require "../backend/conexion.php";
     <script src="../js/premios_categorias.js"></script>
     <script src="../js/premios_ganadores.js"></script>
     <script src="../js/gala_admin.js"></script>
+    <script src="../js/patrocinadores.js"></script>
+
 </body>
 
 </html>
