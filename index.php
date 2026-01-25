@@ -24,7 +24,7 @@ require "backend/BD.php";
 
             <nav class="nav-links">
                 <a href="#">Bases del Concurso</a>
-                <a href="#">Inscripción</a>
+                <a href="panel/inscripcion.php">Inscripción</a>
                 <a href="#">Ediciones Anteriores</a>
                 <a href="#">Eventos</a>
                 <select id="login" onchange="redirigirLogin(this.value)">

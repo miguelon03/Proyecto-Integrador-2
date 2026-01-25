@@ -23,17 +23,12 @@ $conexion->select_db($database);
 ======================= */
 $sql = "
 
-CREATE TABLE IF NOT EXISTS alumnos (
+CREATE TABLE IF NOT EXISTS participantes (
     id_usuario INT AUTO_INCREMENT PRIMARY KEY,
     usuario VARCHAR(100) NOT NULL,
     contrasena VARCHAR(255) NOT NULL
 );
 
-CREATE TABLE IF NOT EXISTS alumni (
-    id_alumni INT AUTO_INCREMENT PRIMARY KEY,
-    usuario VARCHAR(100) NOT NULL,
-    contrasena VARCHAR(255) NOT NULL
-);
 
 CREATE TABLE IF NOT EXISTS organizadores (
     id_organizador INT AUTO_INCREMENT PRIMARY KEY,
@@ -128,6 +123,20 @@ CREATE TABLE IF NOT EXISTS gala_imagenes (
     id_imagen INT AUTO_INCREMENT PRIMARY KEY,
     imagen VARCHAR(255) NOT NULL
 );
+CREATE TABLE IF NOT EXISTS inscripciones (
+    id_inscripcion INT AUTO_INCREMENT PRIMARY KEY,
+    id_usuario INT,
+    ficha VARCHAR(255),
+    cartel VARCHAR(255),
+    sinopsis TEXT,
+    nombre_responsable VARCHAR(150),
+    email VARCHAR(150),
+    dni VARCHAR(20),
+    expediente VARCHAR(255),
+    video VARCHAR(255),
+    estado ENUM('Pendiente','Aceptada','Rechazada') DEFAULT 'Pendiente',
+    fecha TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
 
 
 ";
@@ -163,6 +172,6 @@ function insertarUsuario($conexion, $tabla, $usuario, $passwordPlano) {
 /* =======================
    USUARIOS INICIALES
 ======================= */
-insertarUsuario($conexion, "alumnos", "juanjo", "1111");
-insertarUsuario($conexion, "alumni", "adrian", "2222");
+insertarUsuario($conexion, "participantes", "juanjo", "1111");
+insertarUsuario($conexion, "participantes", "adrian", "2222");
 insertarUsuario($conexion, "organizadores", "miguel", "3333");
