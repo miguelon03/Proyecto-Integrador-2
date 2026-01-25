@@ -1,0 +1,131 @@
+/* =========================
+   VARIABLES CORPORATIVAS UE
+   ========================= */
+:root {
+    --ue-red: #c8102e;
+    --ue-red-dark: #a50d26;
+    --ue-dark: #1f1f1f;
+    --ue-gray: #f4f4f4;
+    --ue-text: #333333;
+    --ue-white: #ffffff;
+    --ue-font: 'Arial', 'Helvetica', sans-serif;
+}
+
+/* =========================
+   RESET
+   ========================= */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: var(--ue-font);
+    background-color: var(--ue-gray);
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--ue-text);
+}
+
+/* =========================
+   CONTENEDOR LOGIN
+   ========================= */
+.login-container {
+    width: 100%;
+    max-width: 420px;
+    background-color: var(--ue-white);
+    padding: 40px;
+    border-radius: 8px;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+    border-top: 6px solid var(--ue-red);
+}
+
+/* =========================
+   TÍTULO
+   ========================= */
+.login-container h2 {
+    text-align: center;
+    margin-bottom: 30px;
+    color: var(--ue-dark);
+    font-size: 24px;
+}
+
+/* =========================
+   FORMULARIO
+   ========================= */
+#loginForm {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+}
+
+/* INPUTS */
+#loginForm input[type="text"],
+#loginForm input[type="password"] {
+    padding: 12px 14px;
+    font-size: 15px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+#loginForm input::placeholder {
+    color: #999;
+}
+
+#loginForm input:focus {
+    outline: none;
+    border-color: var(--ue-red);
+    box-shadow: 0 0 0 2px rgba(200, 16, 46, 0.2);
+}
+
+/* =========================
+   BOTÓN
+   ========================= */
+#loginForm button {
+    padding: 12px;
+    font-size: 16px;
+    font-weight: 700;
+    background-color: var(--ue-red);
+    color: var(--ue-white);
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.15s ease;
+}
+
+#loginForm button:hover {
+    background-color: var(--ue-red-dark);
+    transform: translateY(-1px);
+}
+
+#loginForm button:active {
+    transform: translateY(0);
+}
+
+/* =========================
+   MENSAJE ERROR
+   ========================= */
+#mensaje {
+    margin-top: 20px;
+    text-align: center;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--ue-red);
+}
+
+/* =========================
+   RESPONSIVE
+   ========================= */
+@media (max-width: 480px) {
+    .login-container {
+        padding: 30px 25px;
+    }
+
+    .login-container h2 {
+        font-size: 22px;
+    }
+}

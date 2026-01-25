@@ -11,19 +11,22 @@ if (!in_array($tipo, ['alumno', 'alumni', 'organizador'])) {
 <head>
     <meta charset="UTF-8">
     <title>Login <?= ucfirst($tipo) ?></title>
+    <link rel="stylesheet" href="../css/login.css">
+
 </head>
 <body>
+<div class="login-container">
+    <h2>Login <?= ucfirst($tipo) ?></h2>
 
-<h2>Login <?= ucfirst($tipo) ?></h2>
+    <form id="loginForm">
+        <input type="text" name="usuario" placeholder="Usuario" required>
+        <input type="password" name="contrasena" placeholder="Contraseña" required>
+        <input type="hidden" name="tipo" value="<?= $tipo ?>">
+        <button type="submit">Entrar</button>
+    </form>
 
-<form id="loginForm">
-    <input type="text" name="usuario" placeholder="Usuario" required>
-    <input type="password" name="contrasena" placeholder="Contraseña" required>
-    <input type="hidden" name="tipo" value="<?= $tipo ?>">
-    <button type="submit">Entrar</button>
-</form>
-
-<p id="mensaje" style="color:red;"></p>
+    <p id="mensaje"></p>
+</div>
 
 <script>
 document.getElementById("loginForm").addEventListener("submit", function(e) {

@@ -14,30 +14,7 @@ require "../backend/conexion.php";
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Panel Organizador</title>
-    <link rel="stylesheet" href="styles.css">
-
-    <style>
-        /* menú interno organizador */
-        .admin-menu {
-            display: flex;
-            gap: 15px;
-            margin-bottom: 25px;
-            justify-content: center;
-        }
-
-        .admin-menu button {
-            padding: 8px 14px;
-            cursor: pointer;
-        }
-
-        section {
-            display: none;
-        }
-
-        section.activa {
-            display: block;
-        }
-    </style>
+    <link rel="stylesheet" href="../css/panel_organizador.css">
 </head>
 
 <body>
@@ -228,7 +205,7 @@ require "../backend/conexion.php";
         </form>
 
         <h4>Edición final</h4>
-        <button onclick="guardarEdicion()">➕ Añadir a ediciones anteriores</button>
+        <button onclick="guardarEdicion()">Añadir a ediciones anteriores</button>
 
     </div>
 

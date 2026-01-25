@@ -9,7 +9,7 @@ require "backend/BD.php";
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Noticias</title>
-    <link rel="stylesheet" href="panel/styles.css">
+    <link rel="stylesheet" href="css/index.css">
 </head>
 
 <body>

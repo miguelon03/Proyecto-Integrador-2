@@ -1,0 +1,251 @@
+/* =========================
+   VARIABLES UE
+   ========================= */
+:root {
+    --ue-red: #c8102e;
+    --ue-red-dark: #a50d26;
+    --ue-dark: #1f1f1f;
+    --ue-gray: #f4f4f4;
+    --ue-white: #ffffff;
+    --ue-text: #333333;
+    --ue-border: #dddddd;
+    --ue-font: 'Arial', 'Helvetica', sans-serif;
+}
+
+/* =========================
+   RESET
+   ========================= */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: var(--ue-font);
+    background-color: var(--ue-gray);
+    color: var(--ue-text);
+}
+
+/* =========================
+   HEADER
+   ========================= */
+.ue-header {
+    background-color: var(--ue-white);
+    border-bottom: 4px solid var(--ue-red);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+.main-nav {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 15px 25px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo img {
+    height: 50px;
+}
+
+.nav-links {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+}
+
+.nav-links a {
+    text-decoration: none;
+    font-weight: 600;
+    color: var(--ue-dark);
+    padding-bottom: 4px;
+}
+
+.nav-links a:hover {
+    color: var(--ue-red);
+    border-bottom: 2px solid var(--ue-red);
+}
+
+/* =========================
+   CONTENIDO PRINCIPAL
+   ========================= */
+.content {
+    max-width: 1200px;
+    margin: 40px auto;
+    padding: 35px;
+    background-color: var(--ue-white);
+    border-radius: 8px;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.06);
+}
+
+.content h1 {
+    margin-bottom: 25px;
+    color: var(--ue-dark);
+}
+
+/* =========================
+   MENÚ INTERNO ORGANIZADOR
+   ========================= */
+.admin-menu {
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+    margin-bottom: 35px;
+    flex-wrap: wrap;
+}
+
+.admin-menu button {
+    padding: 10px 18px;
+}
+
+/* =========================
+   SECCIONES
+   ========================= */
+section {
+    display: none;
+}
+
+section.activa {
+    display: block;
+}
+
+section h2 {
+    margin-bottom: 20px;
+    color: var(--ue-dark);
+}
+
+section h3 {
+    margin: 20px 0 10px;
+}
+
+/* =========================
+   FORMULARIOS
+   ========================= */
+form {
+    margin-top: 15px;
+}
+
+form div {
+    margin-bottom: 15px;
+}
+
+input[type="text"],
+input[type="password"],
+input[type="date"],
+input[type="time"],
+textarea,
+input[type="file"] {
+    width: 100%;
+    padding: 10px 12px;
+    font-size: 14px;
+    border: 1px solid var(--ue-border);
+    border-radius: 4px;
+}
+
+textarea {
+    resize: vertical;
+    min-height: 90px;
+}
+
+input:focus,
+textarea:focus {
+    outline: none;
+    border-color: var(--ue-red);
+    box-shadow: 0 0 0 2px rgba(200, 16, 46, 0.2);
+}
+
+/* =========================
+   BOTONES UE
+   ROJO → BLANCO AL HOVER
+   ========================= */
+button {
+    padding: 10px 16px;
+    font-size: 14px;
+    font-weight: 700;
+    border-radius: 4px;
+    border: 2px solid var(--ue-red);
+    cursor: pointer;
+    margin-right: 8px;
+    background-color: var(--ue-red);
+    color: var(--ue-white);
+    transition: background-color 0.3s ease,
+                color 0.3s ease,
+                transform 0.15s ease;
+}
+
+button:hover {
+    background-color: var(--ue-white);
+    color: var(--ue-red);
+    transform: translateY(-1px);
+}
+
+/* Botones secundarios (Cancelar, etc.) */
+button[type="button"] {
+    background-color: #777;
+    border-color: #777;
+    color: var(--ue-white);
+}
+
+button[type="button"]:hover {
+    background-color: var(--ue-white);
+    color: #777;
+}
+
+/* =========================
+   LISTADOS
+   ========================= */
+#listaNoticias,
+#listaEventos,
+#listaCategorias,
+#listaGanadores,
+#listaPatrocinadores,
+#listaSecciones {
+    margin-top: 25px;
+    padding-top: 15px;
+    border-top: 1px solid var(--ue-border);
+}
+
+/* =========================
+   ERRORES
+   ========================= */
+.error,
+#errorGeneral,
+#errorEvento,
+#errorCategoria {
+    color: var(--ue-red);
+    font-size: 13px;
+    font-weight: 600;
+}
+
+/* =========================
+   GALA
+   ========================= */
+#galaPre,
+#galaPost {
+    margin-top: 20px;
+    padding: 20px;
+    border: 1px solid var(--ue-border);
+    border-radius: 6px;
+    background-color: #fafafa;
+}
+
+/* =========================
+   RESPONSIVE
+   ========================= */
+@media (max-width: 900px) {
+    .main-nav {
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    .nav-links {
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+
+    .content {
+        margin: 20px;
+        padding: 25px;
+    }
+}
