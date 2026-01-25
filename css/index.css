@@ -1,0 +1,144 @@
+/* =========================
+   VARIABLES CORPORATIVAS UE
+   ========================= */
+:root {
+    --ue-red: #c8102e;
+    --ue-red-dark: #a50d26;
+    --ue-dark: #1f1f1f;
+    --ue-gray: #f4f4f4;
+    --ue-text: #333333;
+    --ue-white: #ffffff;
+    --ue-font: 'Helix', 'Helix', sans-serif;
+}
+
+/* =========================
+   RESET BÁSICO
+   ========================= */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: var(--ue-font);
+    background-color: var(--ue-gray);
+    color: var(--ue-text);
+}
+
+/* =========================
+   HEADER
+   ========================= */
+.ue-header {
+    background-color: var(--ue-white);
+    border-bottom: 4px solid var(--ue-red);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+/* =========================
+   NAVEGACIÓN PRINCIPAL
+   ========================= */
+.main-nav {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 15px 25px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+/* LOGO */
+.logo img {
+    height: 50px;
+}
+
+/* LINKS */
+.nav-links {
+    display: flex;
+    align-items: center;
+    gap: 25px;
+}
+
+.nav-links a {
+    text-decoration: none;
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--ue-dark);
+    padding-bottom: 5px;
+    transition: color 0.3s ease, border-bottom 0.3s ease;
+}
+
+.nav-links a:hover {
+    color: var(--ue-red);
+    border-bottom: 2px solid var(--ue-red);
+}
+
+/* =========================
+   SELECT LOGIN ROJO UE
+   ========================= */
+.nav-links select {
+    padding: 8px 14px;
+    font-size: 14px;
+    font-weight: 600;
+    border: 2px solid var(--ue-red);
+    border-radius: 4px;
+    background-color: var(--ue-red);
+    color: var(--ue-white);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+}
+
+/* Hover */
+.nav-links select:hover {
+    background-color: var(--ue-red-dark);
+    border-color: var(--ue-red-dark);
+}
+
+/* Focus */
+.nav-links select:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(200, 16, 46, 0.35);
+}
+
+/* Opciones */
+.nav-links select option {
+    background-color: var(--ue-white);
+    color: var(--ue-dark);
+    font-weight: 500;
+}
+
+/* =========================
+   CONTENIDO PRINCIPAL
+   ========================= */
+.content {
+    max-width: 1200px;
+    margin: 40px auto;
+    padding: 30px;
+    background-color: var(--ue-white);
+    border-radius: 6px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+    min-height: 300px;
+}
+
+/* =========================
+   RESPONSIVE
+   ========================= */
+@media (max-width: 900px) {
+    .main-nav {
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    .nav-links {
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 15px;
+    }
+
+    .logo img {
+        height: 45px;
+    }
+}
