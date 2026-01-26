@@ -148,6 +148,29 @@ if (!$conexion->multi_query($sql)) {
 // Limpiar resultados pendientes del multi_query
 while ($conexion->next_result()) {;}
 
+// =======================
+// ACTUALIZACIONES SEGURAS DE LA TABLA INSCRIPCIONES
+// =======================
+
+// 1. Asegurar ENUM estado completo
+$conexion->query("
+    ALTER TABLE inscripciones 
+    MODIFY estado ENUM('PENDIENTE','RECHAZADO','ACEPTADO','NOMINADO') 
+    DEFAULT 'PENDIENTE'
+");
+
+// 2. Añadir motivo_rechazo si no existe
+$res = $conexion->query("SHOW COLUMNS FROM inscripciones LIKE 'motivo_rechazo'");
+if ($res->num_rows === 0) {
+    $conexion->query("ALTER TABLE inscripciones ADD motivo_rechazo TEXT");
+}
+
+// 3. Añadir mensaje_subsanacion si no existe
+$res = $conexion->query("SHOW COLUMNS FROM inscripciones LIKE 'mensaje_subsanacion'");
+if ($res->num_rows === 0) {
+    $conexion->query("ALTER TABLE inscripciones ADD mensaje_subsanacion TEXT");
+}
+
 /* =======================
    FUNCIÓN PARA INSERTAR USUARIOS (HASH)
 ======================= */
@@ -172,6 +195,5 @@ function insertarUsuario($conexion, $tabla, $usuario, $passwordPlano) {
 /* =======================
    USUARIOS INICIALES
 ======================= */
-insertarUsuario($conexion, "participantes", "juanjo", "1111");
-insertarUsuario($conexion, "participantes", "adrian", "2222");
+
 insertarUsuario($conexion, "organizadores", "miguel", "3333");

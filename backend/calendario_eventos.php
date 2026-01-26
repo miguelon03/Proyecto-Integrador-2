@@ -2,28 +2,22 @@
 header('Content-Type: application/json');
 require "conexion.php";
 
-$mes = intval($_GET['mes'] ?? date('n'));
-$anyo = intval($_GET['anyo'] ?? date('Y'));
+$res = $conexion->query("
+  SELECT id_evento, titulo, descripcion, fecha_inicio, fecha_fin
+  FROM eventos
+");
 
-/*
-   Devuelve los días del mes que tienen eventos
-   Formato: YYYY-MM-DD
-*/
-$sql = "
-    SELECT DISTINCT fecha_inicio AS dia
-    FROM eventos
-    WHERE MONTH(fecha_inicio) = ? AND YEAR(fecha_inicio) = ?
-";
+$eventos = [];
 
-$stmt = $conexion->prepare($sql);
-$stmt->bind_param("ii", $mes, $anyo);
-$stmt->execute();
-
-$res = $stmt->get_result();
-$dias = [];
-
-while ($fila = $res->fetch_assoc()) {
-    $dias[] = $fila['dia'];
+while ($e = $res->fetch_assoc()) {
+    $eventos[] = [
+        'id' => $e['id_evento'],
+        'title' => $e['titulo'],
+        'start' => $e['fecha_inicio'],
+        'end' => date('Y-m-d', strtotime($e['fecha_fin'].' +1 day')),
+        'descripcion' => $e['descripcion']
+    ];
 }
 
-echo json_encode($dias);
+echo json_encode($eventos);
+exit;

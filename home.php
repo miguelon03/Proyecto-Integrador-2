@@ -27,16 +27,12 @@ require "backend/BD.php";
                 <a href="#">Ediciones Anteriores</a>
                 <a href="#">Eventos</a>
 
-                <?php if (isset($_SESSION['usuario'])): ?>
+                <?php if (isset($_SESSION['id_usuario'])): ?>
+
                     <a href="panel/personal.php" class="perfil-btn">Perfil</a>
                     <a href="logout.php">Cerrar sesión</a>
-                <?php else: ?>
-                    <select id="login" onchange="redirigirLogin(this.value)">
-                        <option value="" selected disabled hidden>Entrar</option>
-                        <option value="alumno">Alumno</option>
-                        <option value="alumni">Alumni</option>
-                        <option value="organizador">Organizador</option>
-                    </select>
+                <?php else : ?>
+                    <a href="logout.php">Cerrar sesión</a>
                 <?php endif; ?>
             </nav>
 
@@ -44,8 +40,6 @@ require "backend/BD.php";
     </header>
 
     <main class="content">
-        <h1>Bienvenido/a al concurso</h1>
-        <p>Tu inscripción ha sido enviada correctamente.</p>
     </main>
 
 </body>

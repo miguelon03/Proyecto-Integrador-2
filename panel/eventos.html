@@ -1,24 +1,132 @@
-
 <!DOCTYPE html>
 <html lang="es">
 <head>
 <meta charset="UTF-8">
 <title>Calendario de Eventos</title>
+
+<link rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/index.global.min.css">
+
+<script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/index.global.min.js"></script>
+
 <link rel="stylesheet" href="styles.css">
+<link rel="stylesheet" href="css/index.css">
+<style>
+    #calendar {
+  max-width: 1100px;
+  margin: 40px auto;
+  min-height: 700px;
+}
+
+.popup {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.6);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 999;
+}
+
+.popup.hidden {
+  display: none;
+}
+
+.popup-content {
+  background: white;
+  padding: 25px;
+  width: 400px;
+  max-height: 80vh;
+  overflow-y: auto;
+  border-radius: 10px;
+}
+
+.popup-content h3 {
+  margin-top: 0;
+}
+
+.popup-content .evento {
+  margin-bottom: 15px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #ddd;
+}
+
+.close {
+  float: right;
+  cursor: pointer;
+  font-size: 18px;
+}
+/* Día que tiene eventos */
+.fc-daygrid-day.has-event {
+  background-color: #fde2e2;
+  cursor: pointer;
+}
+
+/* Número del día */
+.fc-daygrid-day.has-event .fc-daygrid-day-number {
+  color: #c40000;
+  font-weight: bold;
+}
+
+</style>
 </head>
+
+
+
 <body>
 
-<h1>Calendario de Eventos</h1>
+<!-- ===== HEADER PÚBLICO ===== -->
+<header class="ue-header">
+  <div class="main-nav">
+    <div class="logo">
+      <a href="../index.php">
+        <img src="../img/logo_uem.png" alt="Universidad Europea">
+      </a>
+    </div>
 
-<div class="nav">
-    <button id="prev">◀ Mes anterior</button>
-    <h2 id="tituloMes"></h2>
-    <button id="next">Mes siguiente ▶</button>
+    <nav class="nav-links">
+      <a href="../index.php">Noticias</a>
+      <a href="../panel/inscripcion.php">Inscripción</a>
+      <a href="../ediciones.php">Ediciones Anteriores</a>
+      <a href="eventos.html">Eventos</a>
+
+      <select id="login" onchange="redirigirLogin(this.value)">
+        <option value="" selected disabled hidden>Entrar</option>
+        <option value="participante">Participante</option>
+        <option value="organizador">Organizador</option>
+      </select>
+    </nav>
+  </div>
+</header>
+
+<!-- ===== CONTENIDO ===== -->
+<main class="content">
+  <h1 style="text-align:center">Calendario de Eventos</h1>
+
+  <div id="calendar"></div>
+</main>
+
+<!-- ===== POPUP ===== -->
+<div id="popupEventos" class="popup hidden">
+  <div class="popup-content">
+    <span class="close" onclick="cerrarPopup()">✖</span>
+    <h3 id="popupTitulo"></h3>
+    <div id="popupLista"></div>
+  </div>
 </div>
 
-<div id="cal" class="cal"></div>
+<script>
+function redirigirLogin(tipo) {
+  if (tipo) {
+    window.location.href = `../login/login.php?tipo=${tipo}`;
+  }
+}
+</script>
 
-<script src="/ProyectoIntegrador/js/calendario.js"></script>
+<script src="../js/calendario.js"></script>
 
 </body>
 </html>

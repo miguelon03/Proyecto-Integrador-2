@@ -1,106 +1,100 @@
 <?php
 session_start();
 require "../backend/conexion.php";
+
+$tieneInscripcion = false;
+$total = 0;
+
+// SOLO si existe usuario en sesión
+if (isset($_SESSION['id_usuario'])) {
+    $id_usuario = $_SESSION['id_usuario'];
+
+    $res = $conexion->query("
+        SELECT COUNT(*) AS total
+        FROM inscripciones
+        WHERE id_usuario = $id_usuario
+    ");
+    $total = $res->fetch_assoc()['total'];
+
+    if ($total >= 2) {
+        header("Location: personal.php");
+        exit;
+    }
+
+    $tieneInscripcion = $total > 0;
+}
 ?>
+
 <!DOCTYPE html>
 <html lang="es">
-
 <head>
     <meta charset="UTF-8">
-    <title>Inscripción</title>
+    <title><?= $tieneInscripcion ? 'Nueva candidatura' : 'Inscripción' ?></title>
 </head>
 
 <body>
-    <style>
-        .form-container {
-            max-width: 700px;
-            margin: 40px auto;
-            background: #ffffff;
-            padding: 30px;
-            border-radius: 10px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-        }
 
-        .form-container h1 {
-            text-align: center;
-            margin-bottom: 25px;
-            color: #222;
-        }
+<style>
+.form-container {
+    position: relative;
+    max-width: 700px;
+    margin: 40px auto;
+    background: #fff;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(226,8,8,.9);
+}
+.form-container h1 { text-align:center; margin-bottom:25px; }
+.form-group { display:flex; flex-direction:column; margin-bottom:15px; }
+.form-group label { font-weight:600; margin-bottom:6px; }
+.form-group input, textarea {
+    padding:10px; border-radius:6px; border:1px solid #ccc;
+}
+.btn-submit {
+    background:red; color:white; padding:12px;
+    border:none; border-radius:6px; cursor:pointer;
+}
+.btn-cerrar {
+    position:absolute; top:15px; right:15px;
+    font-size:22px; color:red; text-decoration:none;
+}
+</style>
 
-        .inscripcion-form {
-            display: flex;
-            flex-direction: column;
-            gap: 18px;
-        }
+<div class="form-container">
+    <a href="../home.php" class="btn-cerrar">✖</a>
 
-        .form-group {
-            display: flex;
-            flex-direction: column;
-        }
+    <h1><?= $tieneInscripcion ? 'Nueva candidatura' : 'Inscripción al concurso' ?></h1>
 
-        .form-group label {
-            font-weight: 600;
-            margin-bottom: 6px;
-            color: #333;
-        }
+    <form action="../backend/inscripcion_guardar.php" method="POST" enctype="multipart/form-data">
 
-        .form-group input,
-        .form-group textarea {
-            padding: 10px;
-            border-radius: 6px;
-            border: 1px solid #ccc;
-            font-size: 14px;
-        }
+        <div class="form-group">
+            <label>Ficha técnico-artística</label>
+            <input type="file" name="ficha" required>
+        </div>
 
-        .form-group input:focus,
-        .form-group textarea:focus {
-            outline: none;
-            border-color: #0077cc;
-        }
+        <div class="form-group">
+            <label>Cartel</label>
+            <input type="file" name="cartel" required>
+        </div>
 
-        .btn-submit {
-            margin-top: 15px;
-            padding: 12px;
-            background-color: #0077cc;
-            color: white;
-            border: none;
-            border-radius: 6px;
-            font-size: 16px;
-            cursor: pointer;
-            transition: background 0.3s ease;
-        }
+        <div class="form-group">
+            <label>Sinopsis</label>
+            <textarea name="sinopsis" required></textarea>
+        </div>
 
-        .btn-submit:hover {
-            background-color: #005fa3;
-        }
-    </style>
-    <div class="form-container">
-        <h1>Inscripción al concurso</h1>
-
-        <form class="inscripcion-form" action="../backend/inscripcion_guardar.php" method="POST" enctype="multipart/form-data">
-
+        <?php if (!isset($_SESSION['id_usuario'])): ?>
             <div class="form-group">
-                <label>Ficha técnico-artística</label>
-                <input type="file" name="ficha" required>
-            </div>
-
-            <div class="form-group">
-                <label>Cartel</label>
-                <input type="file" name="cartel" accept="image/*" required>
-            </div>
-
-            <div class="form-group">
-                <label>Sinopsis</label>
-                <textarea name="sinopsis" rows="4" required></textarea>
-            </div>
-
-            <div class="form-group">
-                <label>Nombre de la persona responsable</label>
+                <label>Usuario</label>
                 <input type="text" name="nombre_responsable" required>
             </div>
 
             <div class="form-group">
-                <label>Email de contacto</label>
+                <label>Contraseña</label>
+                <input type="password" name="contrasena" required>
+            </div>
+
+            <div class="form-group">
+                <label>Email</label>
                 <input type="email" name="email" required>
             </div>
 
@@ -110,20 +104,21 @@ require "../backend/conexion.php";
             </div>
 
             <div class="form-group">
-                <label>Expediente</label>
-                <input type="file" name="expediente" required>
+                <label>Nº Expediente</label>
+                <input type="text" name="expediente" required>
             </div>
+        <?php endif; ?>
 
-            <div class="form-group">
-                <label>Vídeo (enlace)</label>
-                <input type="url" name="video" placeholder="https://youtube.com/..." required>
-            </div>
+        <div class="form-group">
+            <label>Vídeo (enlace)</label>
+            <input type="url" name="video" required>
+        </div>
 
-
-            <button type="submit" class="btn-submit">Enviar inscripción</button>
-        </form>
-    </div>
+        <button class="btn-submit">
+            <?= $tieneInscripcion ? 'Enviar nueva candidatura' : 'Enviar inscripción' ?>
+        </button>
+    </form>
+</div>
 
 </body>
-
 </html>

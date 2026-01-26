@@ -1,105 +1,54 @@
-// ===============================
-// MES Y AÑO ACTUAL
-// ===============================
-let mesActual = new Date().getMonth(); // 0 - 11
-let anyoActual = new Date().getFullYear();
+document.addEventListener('DOMContentLoaded', () => {
 
-// ===============================
-// BOTONES DE NAVEGACIÓN
-// ===============================
-document.getElementById("prev").onclick = () => cambiarMes(-1);
-document.getElementById("next").onclick = () => cambiarMes(1);
+  const calendarEl = document.getElementById('calendar');
 
-// ===============================
-// CAMBIAR MES
-// ===============================
-function cambiarMes(suma) {
-    mesActual += suma;
+  const calendar = new FullCalendar.Calendar(calendarEl, {
+    initialView: 'dayGridMonth',
+    locale: 'es',
+    dayMaxEvents: true,
 
-    if (mesActual < 0) {
-        mesActual = 11;
-        anyoActual--;
+    events: '../backend/calendario_eventos.php',
+
+    eventDidMount: function(info) {
+      // 🔴 Marca en rojo los días con eventos
+      const cell = info.el.closest('.fc-daygrid-day');
+      if (cell) {
+        cell.style.backgroundColor = '#ffe5e5';
+      }
+    },
+
+    eventClick: info => {
+      alert(
+        info.event.title + "\n\n" +
+        info.event.extendedProps.descripcion
+      );
+    },
+
+    dateClick: info => {
+      const fecha = info.dateStr;
+
+      const eventosDia = calendar.getEvents().filter(ev => {
+        const inicio = ev.startStr.substring(0, 10);
+        const fin = ev.endStr
+          ? ev.endStr.substring(0, 10)
+          : inicio;
+
+        return fecha >= inicio && fecha <= fin;
+      });
+
+      if (eventosDia.length === 0) {
+        alert("No hay eventos este día");
+        return;
+      }
+
+      let texto = `Eventos del ${fecha}:\n\n`;
+      eventosDia.forEach(e => {
+        texto += `• ${e.title}\n${e.extendedProps.descripcion}\n\n`;
+      });
+
+      alert(texto);
     }
-    if (mesActual > 11) {
-        mesActual = 0;
-        anyoActual++;
-    }
+  });
 
-    cargarCalendario();
-}
-
-// ===============================
-// CARGAR CALENDARIO (FETCH)
-// ===============================
-async function cargarCalendario() {
-    try {
-        const res = await fetch(
-            `../backend/calendario_eventos.php?mes=${mesActual + 1}&anyo=${anyoActual}`
-        );
-        const ocupados = await res.json();
-        crearCalendario(ocupados);
-    } catch (e) {
-        console.error("Error cargando calendario", e);
-    }
-}
-
-// ===============================
-// CREAR CALENDARIO
-// ===============================
-function crearCalendario(ocupados) {
-
-    const cal = document.getElementById("cal");
-    cal.innerHTML = "";
-
-    const titulo = document.getElementById("tituloMes");
-    const meses = [
-        "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio",
-        "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"
-    ];
-
-    titulo.textContent = `${meses[mesActual]} ${anyoActual}`;
-
-    // ===============================
-    // CABECERA DÍAS SEMANA
-    // ===============================
-    const diasSemana = ["Lun", "Mar", "Mié", "Jue", "Vie", "Sáb", "Dom"];
-    diasSemana.forEach(d => {
-        cal.innerHTML += `<div class="header">${d}</div>`;
-    });
-
-    // ===============================
-    // PRIMER Y ÚLTIMO DÍA DEL MES
-    // ===============================
-    const inicio = new Date(anyoActual, mesActual, 1);
-    const fin = new Date(anyoActual, mesActual + 1, 0);
-
-    let diaSemana = inicio.getDay(); // 0 (Dom) - 6 (Sáb)
-    if (diaSemana === 0) diaSemana = 7; // domingo al final
-
-    // ===============================
-    // HUECOS ANTES DEL DÍA 1
-    // ===============================
-    for (let i = 1; i < diaSemana; i++) {
-        cal.innerHTML += "<div></div>";
-    }
-
-    // ===============================
-    // DÍAS DEL MES
-    // ===============================
-    for (let d = 1; d <= fin.getDate(); d++) {
-
-        const fecha = `${anyoActual}-${String(mesActual + 1).padStart(2, "0")}-${String(d).padStart(2, "0")}`;
-        const ocupado = ocupados.includes(fecha);
-
-        cal.innerHTML += `
-            <div class="dia ${ocupado ? "ocupado" : ""}">
-                ${d}
-            </div>
-        `;
-    }
-}
-
-// ===============================
-// INICIALIZAR
-// ===============================
-cargarCalendario();
+  calendar.render();
+});

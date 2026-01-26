@@ -217,10 +217,56 @@ h1 {
 .btn-submit:hover {
     background-color: #005fa3;
 }
-.perfil-btn {
-    background-color: #0077cc;
-    color: white !important;
-    padding: 6px 12px;
-    border-radius: 6px;
-    text-decoration: none;
+
+.popup {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.6);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 999;
+}
+
+.popup.hidden {
+  display: none;
+}
+
+.popup-content {
+  background: white;
+  padding: 25px;
+  width: 400px;
+  max-height: 80vh;
+  overflow-y: auto;
+  border-radius: 10px;
+}
+
+.popup-content h3 {
+  margin-top: 0;
+}
+
+.popup-content .evento {
+  margin-bottom: 15px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #ddd;
+}
+
+.close {
+  float: right;
+  cursor: pointer;
+  font-size: 18px;
+}
+/* Día que tiene eventos */
+.fc-daygrid-day.has-event {
+  background-color: #fde2e2;
+  cursor: pointer;
+}
+
+/* Número del día */
+.fc-daygrid-day.has-event .fc-daygrid-day-number {
+  color: #c40000;
+  font-weight: bold;
 }
