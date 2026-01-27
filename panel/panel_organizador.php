@@ -108,35 +108,33 @@ require "../backend/conexion.php";
                 </div>
 
                 <div class="campo">
-                    <label>Fecha inicio</label>
-                    <input type="date" name="fecha_inicio">
+                    <label>Fecha</label>
+                    <input type="date" name="fecha">
                     <small class="error"></small>
                 </div>
 
                 <div class="campo">
-                    <label>Fecha fin</label>
-                    <input type="date" name="fecha_fin">
+                    <label>Hora</label>
+                    <input type="time" name="hora">
                     <small class="error"></small>
                 </div>
 
                 <button type="submit">Guardar evento</button>
                 <button type="button" onclick="ocultarFormularioEvento()">Cancelar</button>
                 <p id="errorEvento" class="error"></p>
-
             </form>
+
 
             <div id="listaEventos"></div>
         </section>
 
         <!-- ================= PREMIOS ================= -->
         <section id="premios">
-            <h2>Gestión de Premios – Categorías</h2>
+            <h3>Crear premio</h3>
 
-            <button onclick="mostrarFormCategoria()">➕ Añadir categoría</button>
-
-            <form id="formCategoria" style="display:none;margin-top:20px;">
+            <form id="formPremio">
                 <div class="campo">
-                    <input type="text" name="nombre" placeholder="Nombre categoría">
+                    <input type="text" name="nombre" placeholder="Nombre del premio">
                     <small class="error"></small>
                 </div>
 
@@ -145,17 +143,28 @@ require "../backend/conexion.php";
                     <small class="error"></small>
                 </div>
 
-                <button type="submit">Guardar categoría</button>
-                <button type="button" onclick="ocultarFormCategoria()">Cancelar</button>
-                <p id="errorGeneral" class="error"></p>
-
+                <button type="submit">Guardar premio</button>
             </form>
 
-            <div id="listaCategorias"></div>
-            <hr>
+            <div id="listaPremios"></div>
+            <h3>Asignar ganador</h3>
 
-            <h2>Asignar Ganadores</h2>
-            <div id="listaGanadores"></div>
+            <form id="formGanador">
+                <div class="campo">
+                    <label>Premio</label>
+                    <select name="id_premio"></select>
+                </div>
+
+                <div class="campo">
+                    <label>Candidatura</label>
+                    <select name="id_inscripcion"></select>
+                </div>
+
+                <button type="submit">Asignar ganador</button>
+            </form>
+
+            <div id="resultadoGanador"></div>
+
         </section>
 
         <!-- ================= PATROCINADORES ================= -->
@@ -216,9 +225,10 @@ require "../backend/conexion.php";
             if (id === 'noticias') cargarNoticias();
             if (id === 'eventos') cargarEventos();
             if (id === 'premios') {
-                cargarCategorias();
-                cargarGanadores();
+                cargarPremios();
+                cargarCandidaturas();
             }
+
             if (id === 'patrocinadores') cargarPatrocinadores();
             if (id === 'gala') cargarModo();
             if (id === 'candidaturas') cargarCandidaturas();
@@ -253,8 +263,7 @@ require "../backend/conexion.php";
 
     <script src="../js/noticias.js"></script>
     <script src="../js/eventos.js"></script>
-    <script src="../js/premios_categorias.js"></script>
-    <script src="../js/premios_ganadores.js"></script>
+    <script src="../js/premios.js"></script>
     <script src="../js/gala_admin.js"></script>
     <script src="../js/patrocinadores.js"></script>
     <script src="../js/candidaturas.js"></script>

@@ -29,28 +29,24 @@ function cargarEventos() {
                 div.innerHTML = `
                     <h3>${e.titulo}</h3>
                     <p>${e.descripcion}</p>
-                    <small>${e.fecha_inicio} → ${e.fecha_fin}</small><br>
-                    <button onclick="editarEvento(${e.id_evento}, '${escapeHtml(e.titulo)}', '${escapeHtml(e.descripcion)}', '${e.fecha_inicio}', '${e.fecha_fin}')">
-                        Editar
-                    </button>
-                    <button onclick="borrarEvento(${e.id_evento})">
-                        Borrar
-                    </button>
+                    <small>${e.fecha} · ${e.hora}</small><br>
+                    <button onclick="editarEvento(${e.id_evento}, '${escapeHtml(e.titulo)}', '${escapeHtml(e.descripcion)}', '${e.fecha}', '${e.hora}')">Editar</button>
+                    <button onclick="borrarEvento(${e.id_evento})">Borrar</button>
                 `;
                 cont.appendChild(div);
             });
         });
 }
 
-function editarEvento(id, titulo, descripcion, inicio, fin) {
+function editarEvento(id, titulo, descripcion, fecha, hora) {
     editandoEvento = id;
     mostrarFormularioEvento();
 
     const form = document.getElementById("formEvento");
     form.titulo.value = titulo;
     form.descripcion.value = descripcion;
-    form.fecha_inicio.value = inicio;
-    form.fecha_fin.value = fin;
+    form.fecha.value = fecha;
+    form.hora.value = hora;
 }
 
 function borrarEvento(id) {
@@ -60,55 +56,44 @@ function borrarEvento(id) {
         .then(res => res.json())
         .then(data => {
             if (data.ok) cargarEventos();
-            else alert(data.error);
         });
 }
+document.getElementById("formEvento").addEventListener("submit", function(e) {
+    e.preventDefault();
 
-document.addEventListener("DOMContentLoaded", () => {
-    const form = document.getElementById("formEvento");
-    if (!form) return;
+    const error = document.getElementById("errorEvento");
+    error.innerText = "";
 
-    form.addEventListener("submit", function (e) {
-        e.preventDefault();
+    const titulo = this.querySelector('[name="titulo"]').value;
+    const descripcion = this.querySelector('[name="descripcion"]').value;
+    const fecha = this.querySelector('[name="fecha"]').value;
+    const hora = this.querySelector('[name="hora"]').value;
 
-        const formData = new FormData(this);
-        const error = document.getElementById("errorEvento");
+    if (!titulo || !descripcion || !fecha || !hora) {
+        error.innerText = "Todos los campos son obligatorios";
+        return;
+    }
 
-        error.innerText = "";
+    const formData = new FormData(this);
+    const accion = editandoEvento ? "editar" : "crear";
+    if (editandoEvento) formData.append("id", editandoEvento);
 
-        const inicio = this.fecha_inicio.value;
-        const fin = this.fecha_fin.value;
-        const hoy = new Date().toISOString().split('T')[0];
-        const limite = '2026-12-21';
-
-        if (inicio < hoy || fin > limite || inicio > fin) {
-            error.innerText = "Fechas fuera de rango permitido";
-            return;
+    fetch(`../backend/eventos.php?accion=${accion}`, {
+        method: "POST",
+        body: formData
+    })
+    .then(res => res.json())
+    .then(data => {
+        if (data.ok) {
+            ocultarFormularioEvento();
+            cargarEventos();
+        } else {
+            error.innerText = data.error || "Error al guardar el evento";
         }
-
-        const accion = editandoEvento ? 'editar' : 'crear';
-        if (editandoEvento) formData.append("id", editandoEvento);
-
-        fetch(`../backend/eventos.php?accion=${accion}`, {
-            method: "POST",
-            body: formData
-        })
-        .then(res => res.json())
-        .then(data => {
-            if (data.ok) {
-                ocultarFormularioEvento();
-                cargarEventos();
-            } else {
-                error.innerText = data.error;
-            }
-        });
     });
 });
+
+
 function escapeHtml(text) {
-    if (!text) return '';
-    return text
-        .replace(/\\/g, '\\\\')
-        .replace(/'/g, "\\'")
-        .replace(/"/g, '&quot;')
-        .replace(/\n/g, '\\n');
+    return text.replace(/'/g, "\\'").replace(/"/g, '&quot;');
 }

@@ -59,6 +59,11 @@ $res = $conexion->query("
                 </a>
             </div>
             <nav class="nav-links">
+                <a href="../noticias.php">Noticias</a>
+                <a href="eventos.html">Eventos</a>
+                <a href="../premios.php">Premios</a>
+                <a href="gala.php">Gala</a>
+                <a href="../ediciones.php">Ediciones anteriores</a>
                 <a href="inscripcion.php">Inscripción</a>
                 <a href="../logout.php">Cerrar sesión</a>
             </nav>

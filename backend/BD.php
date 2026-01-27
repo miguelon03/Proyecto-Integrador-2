@@ -48,36 +48,18 @@ CREATE TABLE IF NOT EXISTS eventos (
     id_evento INT AUTO_INCREMENT PRIMARY KEY,
     titulo VARCHAR(255) NOT NULL,
     descripcion TEXT NOT NULL,
-    fecha_inicio DATE NOT NULL,
-    fecha_fin DATE NOT NULL
-);
+    fecha DATE NOT NULL,
+    hora TIME NOT NULL
 
-CREATE TABLE IF NOT EXISTS categorias (
-    id_categoria INT AUTO_INCREMENT PRIMARY KEY,
-    nombre VARCHAR(100) NOT NULL,
-    descripcion TEXT
 );
 
 CREATE TABLE IF NOT EXISTS premios (
-    id_premio INT AUTO_INCREMENT PRIMARY KEY,
-    id_categoria INT NOT NULL,
-    nombre VARCHAR(150) NOT NULL,
-    descripcion TEXT,
-    premio_fisico BOOLEAN DEFAULT 0,
-    FOREIGN KEY (id_categoria) REFERENCES categorias(id_categoria)
-        ON DELETE CASCADE
+  id_premio INT AUTO_INCREMENT PRIMARY KEY,
+  nombre VARCHAR(150) NOT NULL,
+  descripcion TEXT
 );
 
-CREATE TABLE IF NOT EXISTS ganadores (
-    id_ganador INT AUTO_INCREMENT PRIMARY KEY,
-    id_categoria INT NOT NULL,
-    nombre VARCHAR(150),
-    email VARCHAR(150),
-    telefono VARCHAR(50),
-    video VARCHAR(255),
-    FOREIGN KEY (id_categoria) REFERENCES categorias(id_categoria)
-        ON DELETE CASCADE
-);
+
 
 CREATE TABLE IF NOT EXISTS patrocinadores (
     id_patrocinador INT AUTO_INCREMENT PRIMARY KEY,
@@ -138,6 +120,14 @@ CREATE TABLE IF NOT EXISTS inscripciones (
     fecha TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
+CREATE TABLE IF NOT EXISTS premios_ganadores (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  id_premio INT NOT NULL,
+  id_inscripcion INT NOT NULL,
+
+  FOREIGN KEY (id_premio) REFERENCES premios(id_premio) ON DELETE CASCADE,
+  FOREIGN KEY (id_inscripcion) REFERENCES inscripciones(id_inscripcion) ON DELETE CASCADE
+);
 
 ";
 
@@ -146,7 +136,8 @@ if (!$conexion->multi_query($sql)) {
 }
 
 // Limpiar resultados pendientes del multi_query
-while ($conexion->next_result()) {;}
+while ($conexion->next_result()) {;
+}
 
 // =======================
 // ACTUALIZACIONES SEGURAS DE LA TABLA INSCRIPCIONES
@@ -174,7 +165,8 @@ if ($res->num_rows === 0) {
 /* =======================
    FUNCIÓN PARA INSERTAR USUARIOS (HASH)
 ======================= */
-function insertarUsuario($conexion, $tabla, $usuario, $passwordPlano) {
+function insertarUsuario($conexion, $tabla, $usuario, $passwordPlano)
+{
     $hash = password_hash($passwordPlano, PASSWORD_DEFAULT);
 
     $stmt = $conexion->prepare("
